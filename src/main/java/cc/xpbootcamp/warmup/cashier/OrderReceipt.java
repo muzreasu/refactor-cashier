@@ -21,16 +21,10 @@ public class OrderReceipt {
     public String printReceipt() {
         StringBuilder output = new StringBuilder();
 
-        // print headers
         output.append("======Printing Orders======\n");
 
-        // print date, bill no, customer name
-//        output.append("Date - " + order.getDate();
         output.append(order.getCustomerName());
         output.append(order.getCustomerAddress());
-//        output.append(order.getCustomerLoyaltyNumber());
-
-        // prints lineItems
 
         List<LineItem> lineItems = order.getLineItems();
         double totalAmount = INITIAL_NUMBER;
@@ -47,20 +41,14 @@ public class OrderReceipt {
 
     private double calculateTotalAmount(double totalAmount) {
         for (LineItem lineItem : order.getLineItems()) {
-            // calculate sales tax @ rate of 10%
             double salesTax = lineItem.getTotalAmount() * SALE_TAX_RATE;
-
-            // calculate total amount of lineItem = price * quantity + 10 % sales tax
             totalAmount += lineItem.getTotalAmount() + salesTax;
         }
         return totalAmount;
     }
 
     private void buildTotalTaxAndAmount(StringBuilder output, double totalSalesTax, double totalAmount) {
-        // prints the state tax
         output.append("Sales Tax").append('\t').append(totalSalesTax);
-
-        // print total amount
         output.append("Total Amount").append('\t').append(totalAmount);
     }
 
