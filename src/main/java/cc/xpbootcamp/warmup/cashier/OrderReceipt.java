@@ -5,10 +5,12 @@ package cc.xpbootcamp.warmup.cashier;
  * price and amount. It also calculates the sales tax @ 10% and prints as part
  * of order. It computes the total order amount (amount of individual lineItems +
  * total sales tax) and prints it.
- *
  */
 public class OrderReceipt {
     private Order order;
+
+    double INITIAL_NUMBER = 0d;
+    double SALE_TAX_RATE = .10;
 
     public OrderReceipt(Order order) {
         this.order = order;
@@ -27,8 +29,8 @@ public class OrderReceipt {
 //        output.append(order.getCustomerLoyaltyNumber());
 
         // prints lineItems
-        double totalSalesTax = 0d;
-        double totalAmount = 0d;
+        double totalSalesTax = INITIAL_NUMBER;
+        double totalAmount = INITIAL_NUMBER;
         for (LineItem lineItem : order.getLineItems()) {
             output.append(lineItem.getDescription());
             output.append('\t');
@@ -40,7 +42,7 @@ public class OrderReceipt {
             output.append('\n');
 
             // calculate sales tax @ rate of 10%
-            double salesTax = lineItem.totalAmount() * .10;
+            double salesTax = lineItem.totalAmount() * SALE_TAX_RATE;
             totalSalesTax += salesTax;
 
             // calculate total amount of lineItem = price * quantity + 10 % sales tax
