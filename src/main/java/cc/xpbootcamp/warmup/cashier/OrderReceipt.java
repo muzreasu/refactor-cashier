@@ -14,6 +14,8 @@ public class OrderReceipt {
 
     double INITIAL_NUMBER = 0d;
     double SALE_TAX_RATE = .10;
+    double PER_DISCOUNT = .98;
+    double INVALID_DISCOUNT = -1d;
 
     public OrderReceipt(Order order) {
         this.order = order;
@@ -35,8 +37,9 @@ public class OrderReceipt {
         Double totalSalesTax = lineItems.stream().map(LineItem::getTotalAmount).reduce(INITIAL_NUMBER,
                 (subtotal, lineItem2) -> subtotal + lineItem2 * SALE_TAX_RATE);
         totalAmount = calculateTotalAmount(totalAmount);
+        double totalDiscount = calculateDiscount();
 
-        buildTotalTaxAndAmount(output, totalSalesTax, totalAmount);
+        buildTotalTaxAndAmount(output, totalSalesTax, totalAmount, totalDiscount);
 
         return output.toString();
     }
@@ -70,8 +73,25 @@ public class OrderReceipt {
         return totalAmount;
     }
 
-    private void buildTotalTaxAndAmount(StringBuilder output, double totalSalesTax, double totalAmount) {
+    private double calculateDiscount() {
+        double totalDiscount = INITIAL_NUMBER;
+        Calendar calendar = Calendar.getInstance();
+        if (calendar.get(Calendar.DAY_OF_WEEK) == 3) {
+            for (LineItem lineItem : order.getLineItems()) {
+                double discount = lineItem.getQuantity() * lineItem.getPrice() * PER_DISCOUNT;
+                totalDiscount += discount;
+            }
+        } else {
+            return INVALID_DISCOUNT;
+        }
+        return totalDiscount;
+    }
+
+    private void buildTotalTaxAndAmount(StringBuilder output, double totalSalesTax, double totalAmount, double totalDiscount) {
         output.append("Sales Tax").append(':').append(totalSalesTax + "\n");
+        if (totalDiscount == INVALID_DISCOUNT) {
+            output.append("Total Discount").append(':').append(totalDiscount + "\n");
+        }
         output.append("Total Amount").append(':').append(totalAmount);
     }
 
