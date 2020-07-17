@@ -22,23 +22,36 @@ public class OrderReceipt {
     public String printReceipt() {
         StringBuilder output = new StringBuilder();
 
-        output.append("====== 老王超市，值得信赖 ======\n\n");
-
-        output.append(getTime());
-
-        output.append(order.getCustomerName());
-        output.append(order.getCustomerAddress());
+        output = addHeader(output);
+        addTime(output);
+        addCustomerInfo(output);
 
         List<LineItem> lineItems = order.getLineItems();
         double totalAmount = INITIAL_NUMBER;
 
         buildLineItemReceipt(output, lineItems);
+
         Double totalSalesTax = lineItems.stream().map(LineItem::getTotalAmount).reduce(INITIAL_NUMBER,
                 (subtotal, lineItem2) -> subtotal + lineItem2 * SALE_TAX_RATE);
         totalAmount = calculateTotalAmount(totalAmount);
+
         buildTotalTaxAndAmount(output, totalSalesTax, totalAmount);
 
         return output.toString();
+    }
+
+    private StringBuilder addHeader(StringBuilder output) {
+        return output.append("====== 老王超市，值得信赖 ======\n\n");
+    }
+
+    private StringBuilder addTime(StringBuilder output) {
+        return output.append(getTime());
+    }
+
+    private StringBuilder addCustomerInfo(StringBuilder output) {
+        output.append(order.getCustomerName());
+        output.append(order.getCustomerAddress());
+        return output.append(getTime());
     }
 
     private String getTime() {
@@ -57,7 +70,7 @@ public class OrderReceipt {
     }
 
     private void buildTotalTaxAndAmount(StringBuilder output, double totalSalesTax, double totalAmount) {
-        output.append("Sales Tax").append(':').append(totalSalesTax+"\n");
+        output.append("Sales Tax").append(':').append(totalSalesTax + "\n");
         output.append("Total Amount").append(':').append(totalAmount);
     }
 
