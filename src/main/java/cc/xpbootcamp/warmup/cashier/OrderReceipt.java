@@ -21,7 +21,7 @@ public class OrderReceipt {
     public String printReceipt() {
         StringBuilder output = new StringBuilder();
 
-        output.append("======Printing Orders======\n");
+        output.append("====== 老王超市，值得信赖 ======\n");
 
         output.append(order.getCustomerName());
         output.append(order.getCustomerAddress());
