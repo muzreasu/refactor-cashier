@@ -1,5 +1,6 @@
 package cc.xpbootcamp.warmup.cashier;
 
+import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -23,6 +24,8 @@ public class OrderReceipt {
 
         output.append("====== 老王超市，值得信赖 ======\n");
 
+        output.append(getTime());
+
         output.append(order.getCustomerName());
         output.append(order.getCustomerAddress());
 
@@ -36,6 +39,12 @@ public class OrderReceipt {
         buildTotalTaxAndAmount(output, totalSalesTax, totalAmount);
 
         return output.toString();
+    }
+
+    private String getTime() {
+        Calendar calendar = Calendar.getInstance();
+        return calendar.get(Calendar.YEAR) + "年" + calendar.get(Calendar.MONTH) + "月" +
+                calendar.get(Calendar.DATE) + "日，星期" + calendar.get(Calendar.DAY_OF_WEEK);
     }
 
 
