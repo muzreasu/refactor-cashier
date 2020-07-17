@@ -32,11 +32,11 @@ class OrderReceiptTest {
 
         String output = receipt.printReceipt();
 
-        assertThat(output, containsString("milk\t10.0\t2\t20.0\n"));
-        assertThat(output, containsString("biscuits\t5.0\t5\t25.0\n"));
-        assertThat(output, containsString("chocolate\t20.0\t1\t20.0\n"));
-        assertThat(output, containsString("Sales Tax\t6.5"));
-        assertThat(output, containsString("Total Amount\t71.5"));
+        assertThat(output, containsString("milk,10.0*2,20.0\n"));
+        assertThat(output, containsString("biscuits,5.0*5,25.0\n"));
+        assertThat(output, containsString("chocolate,20.0*1,20.0\n"));
+        assertThat(output, containsString("Sales Tax:6.5"));
+        assertThat(output, containsString("Total Amount:71.5"));
     }
 
     @Test

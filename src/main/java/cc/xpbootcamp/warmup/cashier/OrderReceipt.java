@@ -22,7 +22,7 @@ public class OrderReceipt {
     public String printReceipt() {
         StringBuilder output = new StringBuilder();
 
-        output.append("====== 老王超市，值得信赖 ======\n");
+        output.append("====== 老王超市，值得信赖 ======\n\n");
 
         output.append(getTime());
 
@@ -44,7 +44,7 @@ public class OrderReceipt {
     private String getTime() {
         Calendar calendar = Calendar.getInstance();
         return calendar.get(Calendar.YEAR) + "年" + calendar.get(Calendar.MONTH) + "月" +
-                calendar.get(Calendar.DATE) + "日，星期" + calendar.get(Calendar.DAY_OF_WEEK);
+                calendar.get(Calendar.DATE) + "日，星期" + calendar.get(Calendar.DAY_OF_WEEK) + "\n\n";
     }
 
 
@@ -57,18 +57,18 @@ public class OrderReceipt {
     }
 
     private void buildTotalTaxAndAmount(StringBuilder output, double totalSalesTax, double totalAmount) {
-        output.append("Sales Tax").append('\t').append(totalSalesTax);
-        output.append("Total Amount").append('\t').append(totalAmount);
+        output.append("Sales Tax").append(':').append(totalSalesTax+"\n");
+        output.append("Total Amount").append(':').append(totalAmount);
     }
 
     private void buildLineItemReceipt(StringBuilder output, List<LineItem> lineItems) {
         lineItems.forEach((lineItem -> {
             output.append(lineItem.getDescription());
-            output.append('\t');
+            output.append(',');
             output.append(lineItem.getPrice());
-            output.append('\t');
+            output.append('*');
             output.append(lineItem.getQuantity());
-            output.append('\t');
+            output.append(',');
             output.append(lineItem.getTotalAmount());
             output.append('\n');
         }));
