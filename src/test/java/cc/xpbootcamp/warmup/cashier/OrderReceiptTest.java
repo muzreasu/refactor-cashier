@@ -49,4 +49,14 @@ class OrderReceiptTest {
         assertThat(output, containsString("===== 老王超市，值得信赖 ====="));
     }
 
+    @Test
+    public void shouldPrintSeparator() {
+        Order order = new Order("Mr X", "Chicago, 60601", new ArrayList<LineItem>());
+        OrderReceipt receipt = new OrderReceipt(order);
+
+        String output = receipt.printReceipt();
+
+        assertThat(output, containsString("----------------------"));
+    }
+
 }

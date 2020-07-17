@@ -30,6 +30,7 @@ public class OrderReceipt {
         double totalAmount = INITIAL_NUMBER;
 
         buildLineItemReceipt(output, lineItems);
+        output.append("----------------------");
 
         Double totalSalesTax = lineItems.stream().map(LineItem::getTotalAmount).reduce(INITIAL_NUMBER,
                 (subtotal, lineItem2) -> subtotal + lineItem2 * SALE_TAX_RATE);
