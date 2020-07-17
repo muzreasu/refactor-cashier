@@ -3,6 +3,8 @@ package cc.xpbootcamp.warmup.cashier;
 import java.util.Calendar;
 import java.util.List;
 
+import static cc.xpbootcamp.warmup.cashier.Order.INVALID_DISCOUNT;
+
 /**
  * OrderReceipt prints the details of order including customer name, address, description, quantity,
  * price and amount. It also calculates the sales tax @ 10% and prints as part
@@ -12,33 +14,23 @@ import java.util.List;
 public class OrderReceipt {
     private Order order;
 
-    double INITIAL_NUMBER = 0d;
-    double SALE_TAX_RATE = .10;
-    double PER_DISCOUNT = .98;
-    double INVALID_DISCOUNT = -1d;
-
     public OrderReceipt(Order order) {
         this.order = order;
     }
 
     public String printReceipt() {
         StringBuilder output = new StringBuilder();
+        double totalAmount;
+        Double totalSalesTax = order.getTotalSalesTax();
+        totalAmount = order.calculateTotalAmount();
+        double totalDiscount = order.calculateDiscount();
+        List<LineItem> lineItems = order.getLineItems();
 
         output = addHeader(output);
         addTime(output);
         addCustomerInfo(output);
-
-        List<LineItem> lineItems = order.getLineItems();
-        double totalAmount = INITIAL_NUMBER;
-
         buildLineItemReceipt(output, lineItems);
         output.append("----------------------");
-
-        Double totalSalesTax = lineItems.stream().map(LineItem::getTotalAmount).reduce(INITIAL_NUMBER,
-                (subtotal, lineItem2) -> subtotal + lineItem2 * SALE_TAX_RATE);
-        totalAmount = calculateTotalAmount(totalAmount);
-        double totalDiscount = calculateDiscount();
-
         buildTotalTaxAndAmount(output, totalSalesTax, totalAmount, totalDiscount);
 
         return output.toString();
@@ -64,28 +56,6 @@ public class OrderReceipt {
                 calendar.get(Calendar.DATE) + "日，星期" + calendar.get(Calendar.DAY_OF_WEEK) + "\n\n";
     }
 
-
-    private double calculateTotalAmount(double totalAmount) {
-        for (LineItem lineItem : order.getLineItems()) {
-            double salesTax = lineItem.getTotalAmount() * SALE_TAX_RATE;
-            totalAmount += lineItem.getTotalAmount() + salesTax;
-        }
-        return totalAmount;
-    }
-
-    private double calculateDiscount() {
-        double totalDiscount = INITIAL_NUMBER;
-        Calendar calendar = Calendar.getInstance();
-        if (calendar.get(Calendar.DAY_OF_WEEK) == 3) {
-            for (LineItem lineItem : order.getLineItems()) {
-                double discount = lineItem.getQuantity() * lineItem.getPrice() * PER_DISCOUNT;
-                totalDiscount += discount;
-            }
-        } else {
-            return INVALID_DISCOUNT;
-        }
-        return totalDiscount;
-    }
 
     private void buildTotalTaxAndAmount(StringBuilder output, double totalSalesTax, double totalAmount, double totalDiscount) {
         output.append("Sales Tax").append(':').append(totalSalesTax + "\n");
