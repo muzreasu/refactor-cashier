@@ -1,7 +1,5 @@
 package cc.xpbootcamp.warmup.cashier;
 
-import java.util.Calendar;
-
 import static cc.xpbootcamp.warmup.cashier.Order.INVALID_DISCOUNT;
 
 public class OrderReceipt {
