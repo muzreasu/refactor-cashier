@@ -14,7 +14,6 @@ public class OrderReceipt {
 
         output = addHeader(output);
         addTime(output);
-        addCustomerInfo(output);
         buildLineItemReceipt(output);
         output.append("----------------------\n");
         buildTotalTaxAndAmount(output);
@@ -28,12 +27,6 @@ public class OrderReceipt {
 
     private StringBuilder addTime(StringBuilder output) {
         return output.append(order.getTime());
-    }
-
-    private StringBuilder addCustomerInfo(StringBuilder output) {
-        output.append(order.getCustomerName());
-        output.append(order.getCustomerAddress());
-        return output;
     }
 
     private void buildTotalTaxAndAmount(StringBuilder output) {
