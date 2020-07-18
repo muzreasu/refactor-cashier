@@ -20,18 +20,13 @@ public class OrderReceipt {
 
     public String printReceipt() {
         StringBuilder output = new StringBuilder();
-        double totalAmount;
-        Double totalSalesTax = order.getTotalSalesTax();
-        totalAmount = order.calculateTotalAmount();
-        double totalDiscount = order.calculateDiscount();
-        List<LineItem> lineItems = order.getLineItems();
 
         output = addHeader(output);
         addTime(output);
         addCustomerInfo(output);
-        buildLineItemReceipt(output, lineItems);
+        buildLineItemReceipt(output);
         output.append("----------------------");
-        buildTotalTaxAndAmount(output, totalSalesTax, totalAmount, totalDiscount);
+        buildTotalTaxAndAmount(output);
 
         return output.toString();
     }
@@ -57,8 +52,10 @@ public class OrderReceipt {
     }
 
 
-    private void buildTotalTaxAndAmount(StringBuilder output, double totalSalesTax, double totalAmount, double totalDiscount) {
-        output.append("Sales Tax").append(':').append(totalSalesTax + "\n");
+    private void buildTotalTaxAndAmount(StringBuilder output) {
+        output.append("Sales Tax").append(':').append(order.getTotalSalesTax() + "\n");
+        double totalAmount = order.calculateTotalAmount();
+        double totalDiscount = order.calculateDiscount();
         if (totalDiscount == INVALID_DISCOUNT) {
             output.append("Total Discount").append(':').append(totalDiscount + "\n");
             totalAmount = totalAmount - totalDiscount;
@@ -66,8 +63,8 @@ public class OrderReceipt {
         output.append("Total Amount").append(':').append(totalAmount);
     }
 
-    private void buildLineItemReceipt(StringBuilder output, List<LineItem> lineItems) {
-        lineItems.forEach((lineItem -> {
+    private void buildLineItemReceipt(StringBuilder output) {
+        order.getLineItems().forEach((lineItem -> {
             output.append(lineItem.getDescription());
             output.append(',');
             output.append(lineItem.getPrice());
