@@ -61,6 +61,7 @@ public class OrderReceipt {
         output.append("Sales Tax").append(':').append(totalSalesTax + "\n");
         if (totalDiscount == INVALID_DISCOUNT) {
             output.append("Total Discount").append(':').append(totalDiscount + "\n");
+            totalAmount = totalAmount - totalDiscount;
         }
         output.append("Total Amount").append(':').append(totalAmount);
     }
