@@ -1,16 +1,9 @@
 package cc.xpbootcamp.warmup.cashier;
 
 import java.util.Calendar;
-import java.util.List;
 
 import static cc.xpbootcamp.warmup.cashier.Order.INVALID_DISCOUNT;
 
-/**
- * OrderReceipt prints the details of order including customer name, address, description, quantity,
- * price and amount. It also calculates the sales tax @ 10% and prints as part
- * of order. It computes the total order amount (amount of individual lineItems +
- * total sales tax) and prints it.
- */
 public class OrderReceipt {
     private Order order;
 
