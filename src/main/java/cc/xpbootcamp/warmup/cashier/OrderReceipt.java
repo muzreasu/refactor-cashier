@@ -10,26 +10,26 @@ public class OrderReceipt {
     }
 
     public String printReceipt() {
-        StringBuilder output = new StringBuilder();
-
-        output = addHeader(output);
-        addTime(output);
-        buildLineItemReceipt(output);
-        output.append("----------------------\n");
-        buildTotalTaxAndAmount(output);
-
-        return output.toString();
+        return String.valueOf(
+                addHeader()) +
+                addTime() +
+                buildLineItemReceipt() +
+                "----------------------\n" +
+                buildTotalTaxAndAmount();
     }
 
-    private StringBuilder addHeader(StringBuilder output) {
+    private StringBuilder addHeader() {
+        StringBuilder output = new StringBuilder();
         return output.append("====== 老王超市，值得信赖 ======\n\n");
     }
 
-    private StringBuilder addTime(StringBuilder output) {
+    private StringBuilder addTime() {
+        StringBuilder output = new StringBuilder();
         return output.append(order.getTime());
     }
 
-    private void buildTotalTaxAndAmount(StringBuilder output) {
+    private StringBuilder buildTotalTaxAndAmount() {
+        StringBuilder output = new StringBuilder();
         output.append("Sales Tax").append(':').append(order.getTotalSalesTax() + "\n");
         double totalAmount = order.calculateTotalAmount();
         double totalDiscount = order.calculateDiscount();
@@ -37,10 +37,12 @@ public class OrderReceipt {
             output.append("Total Discount").append(':').append(totalDiscount + "\n");
             totalAmount = totalAmount - totalDiscount;
         }
-        output.append("Total Amount").append(':').append(totalAmount);
+        return output.append("Total Amount").append(':').append(totalAmount);
     }
 
-    private void buildLineItemReceipt(StringBuilder output) {
+    private StringBuilder buildLineItemReceipt() {
+        StringBuilder output = new StringBuilder();
         order.getLineItems().forEach(lineItem -> output.append(lineItem.getReceiptLine()));
+        return output;
     }
 }
