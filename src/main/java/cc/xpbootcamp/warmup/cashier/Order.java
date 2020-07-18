@@ -14,24 +14,18 @@ public class Order {
     double PER_DISCOUNT = .02;
     public static double INVALID_DISCOUNT = -1d;
 
-    String customerName;
-    String customerAddress;
+    Customer customer;
     List<LineItem> lineItems;
     LocalDate localDate;
 
-    public Order(String customerName, String customerAddress, List<LineItem> lineItems, LocalDate localDate) {
-        this.customerName = customerName;
-        this.customerAddress = customerAddress;
+    public Order(Customer customer, List<LineItem> lineItems, LocalDate localDate) {
+        this.customer = customer;
         this.lineItems = lineItems;
         this.localDate = localDate;
     }
 
-    public String getCustomerName() {
-        return customerName;
-    }
-
-    public String getCustomerAddress() {
-        return customerAddress;
+    public Customer getCustomer() {
+        return customer;
     }
 
     public List<LineItem> getLineItems() {
