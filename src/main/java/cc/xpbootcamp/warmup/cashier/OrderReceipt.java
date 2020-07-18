@@ -29,27 +29,20 @@ public class OrderReceipt {
     }
 
     private StringBuilder addTime(StringBuilder output) {
-        return output.append(getTime());
+        return output.append(order.getTime());
     }
 
     private StringBuilder addCustomerInfo(StringBuilder output) {
         output.append(order.getCustomerName());
         output.append(order.getCustomerAddress());
-        return output.append(getTime());
+        return output;
     }
-
-    private String getTime() {
-        Calendar calendar = Calendar.getInstance();
-        return calendar.get(Calendar.YEAR) + "年" + calendar.get(Calendar.MONTH) + "月" +
-                calendar.get(Calendar.DATE) + "日，星期" + calendar.get(Calendar.DAY_OF_WEEK) + "\n\n";
-    }
-
 
     private void buildTotalTaxAndAmount(StringBuilder output) {
         output.append("Sales Tax").append(':').append(order.getTotalSalesTax() + "\n");
         double totalAmount = order.calculateTotalAmount();
         double totalDiscount = order.calculateDiscount();
-        if (totalDiscount == INVALID_DISCOUNT) {
+        if (!(totalDiscount == INVALID_DISCOUNT)) {
             output.append("Total Discount").append(':').append(totalDiscount + "\n");
             totalAmount = totalAmount - totalDiscount;
         }

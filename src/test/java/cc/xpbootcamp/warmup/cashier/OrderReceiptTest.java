@@ -2,6 +2,7 @@ package cc.xpbootcamp.warmup.cashier;
 
 import org.junit.jupiter.api.Test;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,7 +12,7 @@ import static org.hamcrest.Matchers.containsString;
 class OrderReceiptTest {
     @Test
     void shouldPrintCustomerInformationOnOrder() {
-        Order order = new Order("Mr X", "Chicago, 60601", new ArrayList<LineItem>());
+        Order order = new Order("Mr X", "Chicago, 60601", new ArrayList<>(), LocalDate.now());
         OrderReceipt receipt = new OrderReceipt(order);
 
         String output = receipt.printReceipt();
@@ -22,13 +23,14 @@ class OrderReceiptTest {
     }
 
     @Test
-    public void shouldPrintLineItemAndSalesTaxInformation() {
+    public void shouldPrintLineItemAndSalesTaxInformationGivenNotInWednesday() {
+        LocalDate date = LocalDate.of(2020, 7, 17);
         List<LineItem> lineItems = new ArrayList<LineItem>() {{
             add(new LineItem("milk", 10.0, 2));
             add(new LineItem("biscuits", 5.0, 5));
             add(new LineItem("chocolate", 20.0, 1));
         }};
-        OrderReceipt receipt = new OrderReceipt(new Order(null, null, lineItems));
+        OrderReceipt receipt = new OrderReceipt(new Order(null, null, lineItems, date));
 
         String output = receipt.printReceipt();
 
@@ -41,7 +43,7 @@ class OrderReceiptTest {
 
     @Test
     public void shouldPrintHeader() {
-        Order order = new Order("Mr X", "Chicago, 60601", new ArrayList<LineItem>());
+        Order order = new Order("Mr X", "Chicago, 60601", new ArrayList<>(), LocalDate.now());
         OrderReceipt receipt = new OrderReceipt(order);
 
         String output = receipt.printReceipt();
@@ -51,12 +53,23 @@ class OrderReceiptTest {
 
     @Test
     public void shouldPrintSeparator() {
-        Order order = new Order("Mr X", "Chicago, 60601", new ArrayList<LineItem>());
+        Order order = new Order("Mr X", "Chicago, 60601", new ArrayList<>(), LocalDate.now());
         OrderReceipt receipt = new OrderReceipt(order);
 
         String output = receipt.printReceipt();
 
         assertThat(output, containsString("----------------------"));
+    }
+
+    @Test
+    public void shouldPrintTime() {
+        LocalDate date = LocalDate.of(2020, 7, 17);
+        Order order = new Order("Mr X", "Chicago, 60601", new ArrayList<>(), date);
+        OrderReceipt receipt = new OrderReceipt(order);
+
+        String output = receipt.printReceipt();
+
+        assertThat(output, containsString("2020年7月17日，周五"));
     }
 
 }

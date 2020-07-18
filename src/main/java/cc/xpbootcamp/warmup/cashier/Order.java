@@ -1,7 +1,13 @@
 package cc.xpbootcamp.warmup.cashier;
 
+import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
+
+import static java.util.Objects.nonNull;
 
 public class Order {
     double INITIAL_NUMBER = 0d;
@@ -12,11 +18,13 @@ public class Order {
     String customerName;
     String customerAddress;
     List<LineItem> lineItems;
+    LocalDate localDate;
 
-    public Order(String customerName, String customerAddress, List<LineItem> lineItems) {
+    public Order(String customerName, String customerAddress, List<LineItem> lineItems, LocalDate localDate) {
         this.customerName = customerName;
         this.customerAddress = customerAddress;
         this.lineItems = lineItems;
+        this.localDate = localDate;
     }
 
     public String getCustomerName() {
@@ -29,6 +37,11 @@ public class Order {
 
     public List<LineItem> getLineItems() {
         return lineItems;
+    }
+
+    public String getTime() {
+        this.localDate = nonNull(localDate) ? localDate : LocalDate.now();
+        return localDate.format(DateTimeFormatter.ofPattern("yyyy年M月dd日，EEE\n").withLocale(Locale.CHINA));
     }
 
     public Double getTotalSalesTax() {
@@ -46,8 +59,7 @@ public class Order {
 
     public double calculateDiscount() {
         double totalDiscount = INITIAL_NUMBER;
-        Calendar calendar = Calendar.getInstance();
-        if (calendar.get(Calendar.DAY_OF_WEEK) == Calendar.WEDNESDAY) {
+        if (localDate.getDayOfWeek() == DayOfWeek.WEDNESDAY) {
             for (LineItem lineItem : getLineItems()) {
                 double discount = lineItem.getQuantity() * lineItem.getPrice() * PER_DISCOUNT;
                 totalDiscount += discount;
