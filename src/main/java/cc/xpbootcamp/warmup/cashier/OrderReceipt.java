@@ -50,15 +50,6 @@ public class OrderReceipt {
     }
 
     private void buildLineItemReceipt(StringBuilder output) {
-        order.getLineItems().forEach((lineItem -> {
-            output.append(lineItem.getDescription());
-            output.append(',');
-            output.append(lineItem.getPrice());
-            output.append('*');
-            output.append(lineItem.getQuantity());
-            output.append(',');
-            output.append(lineItem.getTotalAmount());
-            output.append('\n');
-        }));
+        order.getLineItems().forEach(lineItem -> output.append(lineItem.getReceiptLine()));
     }
 }
