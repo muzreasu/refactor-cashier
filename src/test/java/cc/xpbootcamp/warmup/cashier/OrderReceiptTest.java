@@ -72,4 +72,20 @@ class OrderReceiptTest {
         assertThat(output, containsString("2020年7月17日，周五"));
     }
 
+    @Test
+    public void shouldPrintLineItemAndSalesTaxInformationAndDiscountGivenInWednesday() {
+        LocalDate date = LocalDate.of(2020, 7, 15);
+        List<LineItem> lineItems = new ArrayList<LineItem>() {{
+            add(new LineItem("milk", 10.0, 2));
+            add(new LineItem("biscuits", 5.0, 5));
+        }};
+        OrderReceipt receipt = new OrderReceipt(new Order(null, null, lineItems, date));
+
+        String output = receipt.printReceipt();
+
+        assertThat(output, containsString("Sales Tax:4.5"));
+        assertThat(output, containsString("Total Discount:0.9"));
+        assertThat(output, containsString("Total Amount:48.6"));
+    }
+
 }

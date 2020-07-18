@@ -18,7 +18,7 @@ public class OrderReceipt {
         addTime(output);
         addCustomerInfo(output);
         buildLineItemReceipt(output);
-        output.append("----------------------");
+        output.append("----------------------\n");
         buildTotalTaxAndAmount(output);
 
         return output.toString();

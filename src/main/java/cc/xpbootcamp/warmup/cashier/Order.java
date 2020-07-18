@@ -12,7 +12,7 @@ import static java.util.Objects.nonNull;
 public class Order {
     double INITIAL_NUMBER = 0d;
     double SALE_TAX_RATE = .10;
-    double PER_DISCOUNT = .98;
+    double PER_DISCOUNT = .02;
     public static double INVALID_DISCOUNT = -1d;
 
     String customerName;
